@@ -14,14 +14,43 @@ def writeFile(path, contents):
 contentsRead = readFile("planetsData.csv")
 contentsToWrite = ""
 
+# putting data into 2D list
+n = 0 # 0 being the column names
 data = []
 for line in contentsRead.split("\n"):
     row = []
     for item in line.split(","):
         row.append(item)
     data.append(row)
+    n += 1
 
-print(data)
+# analyzing data for each planet
+def findScore(planetData):
+    score = 0
+
+    part1 = 1.0 # factors: CHNOPS
+    for i in range(1, 7):
+        part1 *= float(planetData[i])
+    
+    radiusFactor = float(planetData[7]) / 6378.0 # ideally 1-2
+    part2 = 1.0
+    if radiusFactor < 1:
+        part2 = 1 - (radiusFactor - 1)**2
+    elif radiusFactor > 2:
+        part2 = 1 - (radiusFactor - 2)**2
+    if part2 < 0: part2 = 0
+    
+    part3 = float(planetData[8]) * float(planetData[9])
+
+    score = (0.3 * part1) + (0.4 * part2) + (0.3 * part3)
+    score = score ** 2 # to make differences even bigger
+    return score
+
+for planetIndex in range(1, n):
+    planetData = data[planetIndex]
+    score = findScore(planetData)
+    print(planetData[0], score)
+
 
 """
 PLANETS NEED CHNOPS for life
