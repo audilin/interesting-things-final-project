@@ -12,7 +12,7 @@ def writeFile(path, contents):
         f.write(contents)
 
 contentsRead = readFile("planetsData.csv")
-contentsToWrite = ""
+contentsToWrite = "Planet,Score"
 
 # putting data into 2D list
 n = 0 # 0 being the column names
@@ -50,7 +50,9 @@ for planetIndex in range(1, n):
     planetData = data[planetIndex]
     score = findScore(planetData)
     print(planetData[0], score)
+    contentsToWrite += "\n" + planetData[0] + "," + str(score)
 
+writeFile("results.csv", contentsToWrite)
 
 """
 PLANETS NEED CHNOPS for life
@@ -68,6 +70,4 @@ the amount of heat coming from the planet core, and what geological process,
 if any, are taking place on the surface of the planet and/or moon.
 
 All of these can affect a planet's ability to nurture and support life.  
-
-
 """
